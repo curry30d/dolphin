@@ -18,9 +18,8 @@ class Index extends Admin
         $map = $this->getMap();
 		$data_list = Db::name('student')->where($map)->select();
 		
-        $data_list= Student::where($map)->select();
-        var_dump($data_list);
-        die;
+        $data_list= Student::where($map)->select()->toarray();
+        
  // 使用ZBuilder快速创建数据表格
  return ZBuilder::make('table')
      ->addTopButtons('add,enable,disable,delete') // 批量添加顶部按钮
@@ -45,8 +44,9 @@ class Index extends Admin
         if ($this->request->isPost()) {
             // 表单数据
             $data = $this->request->post();
+            $res=Area::where('id',$data['area'])->select()->toarray();
             
-            $res=DB::table('dp_area')->where('id',$data['area'])->select();
+            //DB::table('dp_area')->where('id',$data['area'])->select();
             $arr[]=$res[0]['name'];
             while($res[0]['pid']){
         	   $res=DB::table('dp_area')->where('id',$res[0]['pid'])->select();
@@ -63,11 +63,11 @@ class Index extends Admin
             }else{
         	   $sex=0;
             }
-           $result=DB::table('dp_student')->insert(['name'=>$data['name'],'sex'=>$sex,'city'=>$str,'city_id'=>$data['area']]);
+            $stu=new Student();
+           $result=$stu->save(['name'=>$data['name'],'sex'=>$sex,'city'=>$str,'city_id'=>$data['area']]);
             if ($result) {
                 // 记录行为
-
-                //action_log('link_add', 'cms_link', $link['id'], UID, $data['title']);
+                action_log('student_add', 'student', $result['id'], UID, $data['area']);
                 $this->success('新增成功', 'index');
             } else {
                 $this->error('新增失败');
@@ -78,7 +78,7 @@ class Index extends Admin
 		->addText('name', '姓名')
 		->addRadio('sex', '性别', '', ['man' => '男', 'female' => '女', 'umkonw' => '未知'], 'man')
 		->addLinkages('area', '选择所在地区', '', 'area', 3)
-	    ->setUrl('/dolphin_test/public/admin.php/api/index/add')
+	    ->setUrl('/dolphin/public/admin.php/api/index/add')
          ->fetch();
 	}
 
@@ -102,10 +102,10 @@ class Index extends Admin
                 $this->error('禁止修改超级管理员状态');
             }
 
-            $res=db('area')->where('id',$data['area'])->select();
+            $res=Area::where('id',$data['area'])->select()->toarray();
             $arr[]=$res[0]['name'];
             while($res[0]['pid']){
-        	   $res=DB::table('dp_area')->where('id',$res[0]['pid'])->select();
+        	   $res=Area::where('id',$res[0]['pid'])->select()->toarray();
         	   $arr[]=$res[0]['name'];
             }
             $str=null;
@@ -113,12 +113,12 @@ class Index extends Admin
         	   $str.=$arr[$i];
             }
 
-           $result=DB::table('dp_student')->where('id',$id)->update(['name'=>$data['name'],'sex'=>$data['sex'],'city'=>$str,'city_id'=>$data['area']]);
+           $result=Student::where('id',$id)->update(['name'=>$data['name'],'sex'=>$data['sex'],'city'=>$str,'city_id'=>$data['area']]);
            //var_dump($data['name'],$str,$data['area'],$id,$data['sex']);
 
             if ($result) {
                 // 记录行为
-                //action_log('link_add', 'cms_link', $link['id'], UID, $data['title']);
+                action_log('link_add', 'cms_link', $result['id'], UID, $data['area']);
                 $this->success('修改成功', 'index');
             } else {
                 $this->error('修改失败');
@@ -146,7 +146,7 @@ class Index extends Admin
 	 //     ->setUrl('/dolphin_test/public/admin.php/api/index/add')
   //        ->fetch();
 
-        $data_list = Db::name('student')->where('id',$id)->select();
+        $data_list = Student::where('id',$id)->select()->toarray();
         
         return ZBuilder::make('form')
             ->setPageTitle('编辑') // 设置页面标题

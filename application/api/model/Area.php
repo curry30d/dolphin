@@ -7,7 +7,7 @@
 // | 官方网站: http://dolphinphp.com
 // +----------------------------------------------------------------------
 
-namespace app\cms\model;
+namespace app\api\model;
 
 use think\Model as ThinkModel;
 class Area extends ThinkModel
