@@ -476,8 +476,7 @@ class Index extends Admin
      */
     public function delete($ids = [])
     {
-        var_dump($ids);
-        die;
+        
         Hook::listen('user_delete', $ids);
         return $this->setStatus('delete');
     }

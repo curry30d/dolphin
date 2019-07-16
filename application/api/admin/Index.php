@@ -7,6 +7,7 @@ use think\Db;
 use think\Request;
 use app\api\model\Student;
 use app\api\model\Area;
+use think\facade\Validate;
 /**
  * api 后台模块
  */
@@ -18,7 +19,7 @@ class Index extends Admin
         $map = $this->getMap();
 		$data_list = Db::name('student')->where($map)->select();
 		
-        $data_list= Student::where($map)->select()->toarray();
+        $data_list= Student::where($map)->order("id desc")->select()->toarray();
         
  // 使用ZBuilder快速创建数据表格
  return ZBuilder::make('table')
@@ -44,6 +45,9 @@ class Index extends Admin
         if ($this->request->isPost()) {
             // 表单数据
             $data = $this->request->post();
+            
+            $result = $this->validate($data, 'Index');
+            if (true !== $result) $this->error($result);
             $res=Area::where('id',$data['area'])->select()->toarray();
             
             //DB::table('dp_area')->where('id',$data['area'])->select();
@@ -63,11 +67,15 @@ class Index extends Admin
             }else{
         	   $sex=0;
             }
-            $stu=new Student();
-           $result=$stu->save(['name'=>$data['name'],'sex'=>$sex,'city'=>$str,'city_id'=>$data['area']]);
+
+            $result = Student::create(['name'=>$data['name'],'sex'=>$sex,'city'=>$str,'city_id'=>$data['area']]);
+            //$stu=new Student();
+           //$result=$stu->allowField(true)->save(['name'=>$data['name'],'sex'=>$sex,'city'=>$str,'city_id'=>$data['area']]);
+           
             if ($result) {
                 // 记录行为
-                action_log('student_add', 'student', $result['id'], UID, $data['area']);
+                $action=action_log('student_add', 'student', $result->id, UID, $data['area']);
+                
                 $this->success('新增成功', 'index');
             } else {
                 $this->error('新增失败');
@@ -78,7 +86,7 @@ class Index extends Admin
 		->addText('name', '姓名')
 		->addRadio('sex', '性别', '', ['man' => '男', 'female' => '女', 'umkonw' => '未知'], 'man')
 		->addLinkages('area', '选择所在地区', '', 'area', 3)
-	    ->setUrl('/dolphin/public/admin.php/api/index/add')
+	    ->setUrl('/dolphin_test/public/admin.php/api/index/add')
          ->fetch();
 	}
 
@@ -91,7 +99,8 @@ class Index extends Admin
         // 保存数据
         if ($this->request->isPost()) {
             $data = $this->request->post();
-           
+            $result = $this->validate($data, 'Index');
+            if (true !== $result) $this->error($result);
             // 禁止修改超级管理员的角色和状态
             if ($data['id'] == 1 && $data['role'] != 1) {
                 $this->error('禁止修改超级管理员角色');
@@ -113,12 +122,14 @@ class Index extends Admin
         	   $str.=$arr[$i];
             }
 
-           $result=Student::where('id',$id)->update(['name'=>$data['name'],'sex'=>$data['sex'],'city'=>$str,'city_id'=>$data['area']]);
+           $result=Student::where('id',$data['id'])->update(['id'=>$data['id'],'name'=>$data['name'],'sex'=>$data['sex'],'city'=>$str,'city_id'=>$data['area']]);
+           
            //var_dump($data['name'],$str,$data['area'],$id,$data['sex']);
-
+           var_dump($result);
             if ($result) {
                 // 记录行为
-                action_log('link_add', 'cms_link', $result['id'], UID, $data['area']);
+                action_log('student_edit', 'student', $data['id'], UID, $data['area']);
+                //action_log('link_add', 'cms_link', $result['id'], UID, $data['area']);
                 $this->success('修改成功', 'index');
             } else {
                 $this->error('修改失败');
@@ -166,10 +177,12 @@ class Index extends Admin
         //if ($ids === null) $this->error('参数错误');
 
         //$ids    = is_array($ids) ? '' : $ids;
-        //ocument_title = Db::name($table)->where('id', 'in', $ids)->column('title');
+        $document_title = Db::name('student')->where('id', 'in', $ids)->column('name');
         
         $res=Db::name("student")->delete($ids);
         if($res){
+             // 删除并记录日志
+            action_log('student_delete', 'student', $ids, UID, implode('、', $document_title));
         	$this->success('删除成功');
         }else{
         	 $this->error('删除失败');

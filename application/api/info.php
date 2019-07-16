@@ -23,7 +23,8 @@ return [
     'need_plugin' => [],
 
      'tables' => [
-       'api_student',
+       'student',
+       'area',
     ],
     // 原始数据库表前缀
     // 用于在导入模块sql时，将原有的表前缀转换成系统的表前缀
@@ -43,6 +44,26 @@ return [
         ['colorpicker', 'support_color', '在线客服配色', '', 'rgba(0,158,232,1)'],
         ['image', 'support_wx', '在线客服微信二维码', '在线客服微信二维码'],
         ['ckeditor', 'support_extra', '在线客服额外内容', '在线客服额外内容，可填写电话或其他说明'],
+    ],
+    'action' => [
+        [
+            'module' => 'api',
+            'name' => 'student_add',
+            'title' => '添加学生',
+            'remark' => '添加学生',
+            'rule' => '',
+            'log' => '[user|get_nickname] 添加了学生：[details]',
+            'status' => 1,
+        ],
+         [
+            'module' => 'api',
+            'name' => 'student_edit',
+            'title' => '学生信息编辑',
+            'remark' => '学生信息编辑',
+            'rule' => '',
+            'log' => '[user|get_nickname] 编辑了学生：[details]',
+            'status' => 1,
+        ],
     ],
 
 ];
