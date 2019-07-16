@@ -87,7 +87,7 @@ class Index extends Admin
 		->addText('name', '姓名')
 		->addRadio('sex', '性别', '', ['man' => '男', 'female' => '女', 'umkonw' => '未知'], 'man')
 		->addLinkages('area', '选择所在地区', '', 'area', 3)
-	    ->setUrl('/dolphin_test/public/admin.php/api/index/add')
+	    ->setUrl('/dolphin/public/admin.php/api/index/add')
          ->fetch();
 	}
 
