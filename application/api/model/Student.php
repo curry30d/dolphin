@@ -18,6 +18,13 @@ class Student extends ThinkModel
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
 
+     public function getStudentTypeAttr($value, $data)
+    {
+        $type = [0 => '普通', 1 => 'VIP', 2 => '黄金', 3 => '白金', 4 => '钻石'];
+        return $type[$value];
+    }
+
+
     // 定义修改器
     public function setStartTimeAttr($value)
     {

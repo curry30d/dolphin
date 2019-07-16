@@ -16,6 +16,7 @@ class Index extends Admin
 	public function index(){
 		//return ZBuilder::make('table')->fetch();
  // 获取查询条件
+
         $map = $this->getMap();
 		$data_list = Db::name('student')->where($map)->select();
 		
