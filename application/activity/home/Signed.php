@@ -26,7 +26,13 @@ class Signed extends Common
     //我的列表
     public function index()
     {      //$user_id=session('uid');
-     
+            // $user=UserModel::get(1);
+            // var_dump($user->user_id);
+            // $user=new UserModel();
+            // $data=$user->where('user_id','>','0')->select();
+            // var_dump($data[0]['user_id']);
+
+            // die;
             $now_time=strtotime (date("y-m-d",time()));
             $user_id=1;
             $data = db('activity_sign_rain_coin as sign')
@@ -133,16 +139,16 @@ class Signed extends Common
         ->limit(10);
         //计算比例
         foreach ($data as $key => $value) {
-            $sum+=$value->money
+            $sum+=$value->money;
         }
-        $result=;
+        $result=null;
         foreach ($data as $k => $v) {
              $result=$sign->where('id',$v->id)->update(['money'=>rand($money*$v->money/$sum,2)]);
              //$user->where('user_id',$v->user_id)->update()
             
         }
         $data=$sign->where("rain_coin")->order('rain_coin')->limit(10);
-        $res
+        $res;
         foreach ($data as $key => $value) {
             
             $list=$user->where('user_id',$v->user_id);
