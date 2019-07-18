@@ -27,7 +27,11 @@ class Register extends Common
      * @return mixed
      */
     public function register()
-    {  
+    {  //return plugin_action('HelloWorld', 'Admin', 'add', ['name' => 123]);
+        //$r=plugin_menage('HelloWorld');;
+        $r=plugin_url('HelloWorld/Admin/index',[],'index');
+        var_dump($r);
+        die;
 
         if ($this->request->isPost()) {
             // 获取post数据

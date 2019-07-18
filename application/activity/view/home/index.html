@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+		<meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+		<title>注册页面</title>
+		<!-- <link rel="stylesheet" type="text/css" href="css/api.css" /> -->
+		<link rel="stylesheet" type="text/css" href="__HOME_CSS__/aui.css" />
+		<style type="text/css">
+			html,
+			body {
+				background-image: url("__HOME_IMG__/regbeijing.png");
+				background-position: center center;
+				background-size: 100% 100%;
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+				height: 100%;
+				width: 100%;
+			}
+			
+			.aui-bar-nav {
+				background-color: transparent;
+			}
+			
+			.banner {
+				width: 57%;
+				margin: 0 auto;
+			}
+			
+			.text2 {
+				height: 5rem;
+				background: url(__HOME_IMG__/zhuangshi.png) no-repeat top center;
+				background-size: 100%;
+				padding-top: 1.8rem;
+			}
+			
+			.text2-inner {
+				width: 44.8%;
+				margin: 0 auto;
+			}
+			
+			.banner2 {
+				width: 88.6%;
+				margin: 0 auto;
+			}
+			
+			.form-input {
+				position: relative;
+				width: 86.8%;
+				margin: 0 auto;
+				margin-top: -10%;
+			}
+			
+			.form-input-inner {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				padding-top: 8px;
+			}
+			
+			.form-input-inner h3 {
+				text-align: center;
+				font-size: 25px;
+				color: #fcce09;
+				line-height: 62px;
+			}
+			
+			.form-input-inner>.input-op {
+				width: 83.4%;
+				margin: 0 auto;
+				margin-top: 1rem;
+				height: 42px;
+				border: 1px solid #fff;
+				border-radius: 21px;
+				display: flex;
+				flex-direction: row;
+			}
+			
+			.form-input-inner>.input-op:nth-child(2) {
+				margin-top: 0;
+			}
+			
+			.input-icon {
+				position: relative;
+				width: 22.4%;
+			}
+			
+			.input-icon::after {
+				content: '';
+				position: absolute;
+				right: 0;
+				top: 50%;
+				width: 1px;
+				height: 24px;
+				margin-top: -12px;
+				background-color: #fff;
+			}
+			
+			.input-icon img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				bottom: 0;
+				right: 0;
+				margin: auto;
+				height: 22px;
+			}
+			
+			.input-text {
+				padding-left: 12px;
+			}
+			
+			.input-text input {
+				font-size: 15px;
+				color: #fff;
+			}
+			
+			.input-text input::placeholder {
+				font-size: 15px;
+				color: #fff;
+			}
+			
+			#getCode {
+				margin-top: 1.5rem;
+				text-align: center;
+				font-size: 18px;
+				color: #fcce09;
+			}
+			
+			@media screen and (max-width: 359px) {
+				#getCode {
+					margin-top: 0.2rem;
+				}
+			}
+			
+			.reg-btn {
+				width: 68.4%;
+				height: 38px;
+				line-height: 38px;
+				text-align: center;
+				color: #fff;
+				font-size: 16px;
+				background-color: #fdcb0c;
+				margin: 0 auto;
+				border-radius: 19px;
+				margin-top: 0.5rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="APP">
+			<header class="aui-bar aui-bar-nav" style="padding-top: 1.5rem;">
+				
+			</header>
+
+			<div class="banner">
+				<img src="__HOME_IMG__/huanyingjiaru.png" alt="">
+			</div>
+
+			<div class="text2">
+				<div class="text2-inner">
+					<img src="__HOME_IMG__/zhucesongfuli.png" alt="">
+				</div>
+			</div>
+
+			<div class="banner2">
+				<img src="__HOME_IMG__/jinbi.png" alt="">
+			</div>
+
+			<div class="form-input">
+				<img src="__HOME_IMG__/lianbu.png" alt="">
+				<div class="form-input-inner">
+					<h3>登录</h3>
+					<div class="input-op">
+						<div class="input-icon">
+							<img src="__HOME_IMG__/regzhanghao.png" alt="">
+						</div>
+						<div class="input-text">
+							<input type="number" name="" value="" placeholder="请输入您的手机号" v-model="tel">
+						</div>
+					</div>
+					<div class="input-op">
+						<div class="input-icon">
+							<img src="__HOME_IMG__/yanzhengma.png" alt="">
+						</div>
+						<div class="input-text">
+							<input type="number" name="" value="" placeholder="请输入验证码"  v-model="code">
+						</div>
+					</div>
+					<div class="input-op">
+						<div class="input-icon">
+							<img src="__HOME_IMG__/regmima.png" alt="">
+						</div>
+						<div class="input-text">
+							<input type="password" name="" value="" placeholder="请输入密码"  v-model="pwd">
+						</div>
+					</div>
+					<p id="getCode" tapmode @click="sendCode('getCode')">获取验证码</p>
+					<div class="reg-btn" tapmode @click="goRegister">登录</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<!-- <script type="text/javascript" src="js/api.js"></script> -->
+	<!-- <script type="text/javascript" src="js/md5.js"></script> -->
+	<!-- <script type="text/javascript" src="js/app.js"></script> -->
+	<script type="text/javascript" src="__HOME_JS__/vue.js"></script>
+	<script type="text/javascript" src="__HOME_JS__/jquerymin.js"></script>
+    
+    
+	<script type="text/javascript">
+		
+      
+		var vm = new Vue({
+  el: "#APP",
+
+  data: {
+	tel:'',//手机号
+	code:'',//验证码
+	pwd:'',//密码
+  },
+
+  methods: {
+	appInit:function  () {
+		
+	},
+	getvl:function (name) {
+
+                var reg = new RegExp("(^|\\?|&)"+ name +"=([^&]*)(\\s|&|$)", "i");
+
+                if (reg.test(location.href))
+
+                    return unescape(RegExp.$2.replace(/\+/g, " "));
+
+                return "";
+
+     },
+//	获取验证码
+	sendCode:function  () {
+		//console.log("获取验证码")
+         $.ajax({ 
+            type : "POST", //提交方式 
+            url : "http://app190624.xianfengt.top:88/activity/register/sms",//路径 
+            data : { 
+             "mobile" : vm.tel,
+            },//数据，这里使用的是Json格式进行传输 
+            success :function(result) {
+            //返回数据根据结果进行相应的处理 成功
+                
+           },
+           error :function  () { //失败
+      			
+           }
+          });
+	     
+	},
+//	登录
+	goRegister:function  () {
+		var invite_id=vm.getvl('invite_id');
+		if (invite_id == '') {
+			invite_id=0;
+		}
+
+	///console.log(vm.tel);
+	  $.ajax({ 
+            type : "POST", //提交方式 
+            url : "http://app190624.xianfengt.top:88/activity/register/register",//路径 
+            data : { 
+             "mobile" : vm.tel,
+             "password":vm.pwd,
+             "invite_id":invite_id,
+             "code":vm.code,
+            },//数据，这里使用的是Json格式进行传输 
+            success :function(result) {
+            //返回数据根据结果进行相应的处理 成功
+                console.log('我从来');
+           },
+           error :function  () { //失败
+      			 console.log('vm.tel');
+           }
+          });
+	     }
+  },
+
+  mounted: function () {
+  	
+  }
+});
+
+		
+	</script>
+</html>
