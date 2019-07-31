@@ -17,7 +17,11 @@ return [
     // 用户名
     'username'        => 'app190624_xianfe',
     // 密码
+<<<<<<< HEAD
     'password'        => 'i8kXxmRX5X5SMDFS',
+=======
+    'password'        => 'root',
+>>>>>>> 414fdec05ee1c5b768ed24a662b9c63b669bdb52
     // 端口
     'hostport'        => '3306',
     // 连接dsn

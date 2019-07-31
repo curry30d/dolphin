@@ -89,10 +89,17 @@ class Signed extends Common
                'sign_in_number'=>1+$list[0]['sign_in_number'],
             ];
             
-            action_log('activity_sign', 'admin_activity', $user_id, $user_id);
+            
             $res=Sign::where('user_id',$user_id)->update($rain_coin);
-            //var_dump($res);
-            return $this->error('签到成功');
+            if($res){
+                action_log('activity_sign', 'admin_activity', $user_id, $user_id);
+                return $this->error('签到成功');
+            }else{
+                action_log('activity_sign_failed', 'admin_activity', $user_id, $user_id);
+                return $this->error('签到失败,可能数据错误')
+            }
+           
+            
         }else{
             return $this->error('签到失败，还未到时间');
         }
